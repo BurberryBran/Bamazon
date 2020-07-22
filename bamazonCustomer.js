@@ -40,11 +40,18 @@ function promtUser() {
         ])
         .then(answers => {
             // Use user feedback for... whatever!!
-            console.log(answers)
+            
+            var quantity = Number(answers.quantity)
             connection.query('SELECT * FROM products where item_id = ?', [answers.id], function (error, results) {
                 if (error) throw error;
                 console.table(results);
-                
+               
+                let productQuantity = results[0].stock_quantity
+                console.log(quantity, productQuantity)
+                if (quantity <= productQuantity){
+                    console.log("enough")
+                }
+                else {console.log("Not enough of that product avalible!")}
             });
         })
         .catch(error => {
